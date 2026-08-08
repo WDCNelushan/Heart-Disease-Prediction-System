@@ -1,8 +1,13 @@
 # Making the UI for the model using Streamlit
+import sys
 import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
+from streamlit.runtime.scriptrunner import get_script_run_ctx
+
+if get_script_run_ctx() is None:
+    sys.exit("Please run this app using: streamlit run app.py")
 
 # Saving the model and scaler
 with open('heart_disease_model.pkl', 'rb') as file:
@@ -37,8 +42,8 @@ with col2:
     ExerciseEngage = st.selectbox("Exercise Induced Angina", options=[0,1])
     ST_Depression = st.number_input("ST Depression Induced by Exercise Relative to Rest", min_value=0.0, max_value=10.0, value=1.0, step = 0.1)
     ST_Slope = st.selectbox("Slope of the Peak Exercise ST Segment", options=[0,1,2])
-    MajorVessels = st.selectbox("Number of Major Vessels (0-3) Colored by Fluoroscopy", options=[0,1,2,3])
-    Thalassemia = st.selectbox("Thalassemia (1-3)", options=[0,1,2])
+    MajorVessels = st.selectbox("Number of Major Vessels (0-4) Colored by Fluoroscopy", options=[0,1,2,3,4])
+    Thalassemia = st.selectbox("Thalassemia (1-3)", options=[1,2,3])
 
 Gender = 1 if gender == "Male" else 0
 
