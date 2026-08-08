@@ -1,5 +1,6 @@
 # Making the UI for the model using Streamlit
 import sys
+import subprocess
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -9,7 +10,14 @@ from streamlit.runtime.scriptrunner import get_script_run_ctx
 if get_script_run_ctx() is None:
     sys.exit("Please run this app using: streamlit run app.py")
 
-# Saving the model and scaler
+# Ensure scikit-learn is available for unpickling the saved model
+try:
+    import sklearn  # noqa: F401
+except ModuleNotFoundError:
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'scikit-learn', 'scipy', 'joblib'])
+    import sklearn  # noqa: F401
+
+# Load the saved model and scaler
 with open('heart_disease_model.pkl', 'rb') as file:
     model, scaler = pickle.load(file)
 
